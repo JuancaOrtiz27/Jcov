@@ -1,0 +1,71 @@
+# Función para convertir un número a letra (1=A, 2=B, ..., 26=Z)
+def numero_a_letra(numero):
+    if 1 <= numero <= 26:
+        return chr(64 + numero)  # 1=A, 2=B, etc.
+    return ""
+
+# Fechas de ejemplo
+fechas = ["30/08/1963", "01/09/1963", "02/09/1963"]
+
+# Extraer el día de cada fecha y convertir a letra
+palabra_secreta = ""
+for fecha in fechas:
+    dia = int(fecha.split("/")[0])  # Extraer el día
+    letra = numero_a_letra(dia % 26 if dia > 26 else dia)  # Convertir día a letra
+    palabra_secreta += letra
+
+print("Palabra secreta:", palabra_secreta)  # Ejemplo: ZAB
+
+
+import random
+
+# Simulación de un partido
+def simular_partido(prob_a=0.4, prob_b=0.3, prob_empate=0.3):
+    resultado = random.random()
+    if resultado < prob_a:
+        return "A"
+    elif resultado < prob_a + prob_b:
+        return "B"
+    else:
+        return "E"
+
+# Realizar 100 simulaciones y contar victorias
+n_simulaciones = 100
+resultados = {"A": 0, "B": 0, "E": 0}
+for _ in range(n_simulaciones):
+    resultado = simular_partido()
+    resultados[resultado] += 1
+
+# La palabra secreta es el equipo con más victorias
+ganador = max(resultados, key=resultados.get)
+palabra_secreta = ganador
+
+print("Palabra secreta:", palabra_secreta)  # Ejemplo: "A" (o podría ser "B" o "E")
+
+
+
+class Joya:
+    def __init__(self, nombre, valor):
+        self.nombre = nombre
+        self.valor = valor
+
+class Corona:
+    def __init__(self):
+        self.joyas = []
+
+    def agregar_joya(self, joya):
+        self.joyas.append(joya)
+
+    def obtener_palabra_secreta(self):
+        # Tomar la primera letra de cada joya
+        return "".join(joya.nombre[0] for joya in self.joyas)
+
+# Crear corona y agregar joyas
+corona = Corona()
+corona.agregar_joya(Joya("Esmeralda", 1000))
+corona.agregar_joya(Joya("Diamante", 2000))
+corona.agregar_joya(Joya("Rubí", 1500))
+
+# Obtener palabra secreta
+palabra_secreta = corona.obtener_palabra_secreta()
+print("Palabra secreta:", palabra_secreta)  # Ejemplo: "EDR"
